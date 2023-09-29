@@ -1,45 +1,57 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { database } from '../../firebase';
-import { useContext } from 'react';
-import { ref, child, push, update, get } from "firebase/database";
-import { ProductContext } from '../../contexts/ProductContext';
+import { ref, push, update, get } from "firebase/database";
 import { CategoryContext } from '../../contexts/CategoryContext';
 
 const UpdateProduct = () => {
+    const {categorys} = useContext(CategoryContext);
+    const [productWithKey, setProductWithKey] = useState(null);
     const {id} = useParams();
-    console.log(id)
+    // console.log(id)
     const [products, setProducts] = useState({
+        id:0,
         title: '',
         category: '',
         price: '',
         image: '',
         description: '',
       });
-    useEffect(() => {
+      useEffect(() => {
         const productRef = ref(database, 'products/');
         get(productRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
               const productsArray = [];
+              const keysArray = [];
               snapshot.forEach((childSnapshot) => {
                 const product = {
                   id: childSnapshot.key,
                   ...childSnapshot.val(),
                 };
                 productsArray.push(product);
-                // console.log(product)
+                keysArray.push(childSnapshot.key);
               });
-              const products = productsArray.find(item => {
-                return item.id === parseInt(id); 
+              const productIndex = productsArray.findIndex(item => {
+                return item.id === parseInt(id);
               });
-              setProducts(products);
-          }})
+      
+              if (productIndex !== -1) {
+                const products = productsArray[productIndex];
+                const key = keysArray[productIndex];
+                setProductWithKey({ products, key });
+                setProducts(products)
+              } else {
+                console.log('deo thay');
+              }
+            }
+          })
           .catch((error) => {
             console.error(error);
           });
-      }, []);
+      }, [id]);
 //    console.log(products)
+// console.log(productWithKey)
 const handleChange = (e) => {
     const { name, value } = e.target;
     setProducts({
@@ -50,27 +62,27 @@ const handleChange = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const productRef = ref(database, 'products');
-
-      // Update the state with the new product
-      setProducts((prevProducts) => [...prevProducts]);
-
-      // Push the new product to the database
-      await push(productRef);
-      console.log('Product added successfully');
-
-      setProducts({
-        title: '',
-        category: '',
-        price: '',
-        image: '',
-        description: '',
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      if (productWithKey) {
+        const { key } = productWithKey;
+        const productRef = ref(database, 'products/' + key);
+        const updatedProduct = {
+          id: products.id,
+          title: products.title,
+          category: products.category,
+          price: products.price,
+          image: products.image,
+          description: products.description,
+        };
+        await update(productRef, updatedProduct);
+        console.log('Product updated successfully');
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
+      } else {
+        console.error('Product with key not found');
+      }
     } catch (error) {
-      console.error('Error adding product:', error);
+      console.error('Error updating product:', error);
     }
   };
     return (
@@ -85,7 +97,7 @@ const handleChange = (e) => {
                   type='text'
                   id='id'
                   name='id'
-                  value={products.id}
+                  value={products.id} disabled
                   onChange={handleChange}
                   className='w-full  px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400'
                 />
@@ -116,6 +128,31 @@ const handleChange = (e) => {
                   className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400'
                 />
               </div>
+              <div className='mb-4'>
+          <label
+            htmlFor='category'
+            className='block text-gray-700 font-bold mb-2'
+          >
+            Category
+          </label>
+          <select
+            id='category'
+            name='category'
+            value={products.category}
+            onChange={handleChange}
+            className='border rounded-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full'
+            required
+          >
+            <option value='' disabled>
+              Select a category
+            </option>
+            {categorys.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
               <div className='mb-4'>
                 <label
                   htmlFor='description'
