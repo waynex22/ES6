@@ -14,6 +14,8 @@ import AddProduct from './components/Admin/AddProduct';
 import Category from './components/Admin/Category';
 import AddCategory from './components/Admin/AddCategory';
 import UpdateProduct from './components/Admin/UpdateProducts';
+import CheckOut from './pages/CheckOut';
+import News from './pages/News';
 const App = () => {
   return (
     <div className='overflow-hidden'>
@@ -35,6 +37,26 @@ const App = () => {
               <>
                 <Header />
                 <Shop />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path='/checkout'
+            element={
+              <>
+                <Header />
+                <CheckOut />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path='/news'
+            element={
+              <>
+                <Header />
+                <News />
                 <Footer />
               </>
             }

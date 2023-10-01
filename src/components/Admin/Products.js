@@ -1,45 +1,36 @@
-import { useContext, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ProductContext } from '../../contexts/ProductContext';
-import { ref, remove, get } from 'firebase/database';
+import { Link } from 'react-router-dom';
+import { ref,remove, onValue } from 'firebase/database';
 import { database } from '../../firebase';
 import 'firebase/database';
 
 const Products = () => {
-  const [productWithKey, setProductWithKey] = useState(null);
-  const { products } = useContext(ProductContext);
-
+  const [products, setProducts] = useState([]);
+  const [productId, setProductID] = useState([]);
   useEffect(() => {
     const productRef = ref(database, 'products/');
-    get(productRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const productsArray = [];
-          const keysArray = [];
-          snapshot.forEach((childSnapshot) => {
-            const product = {
-              id: childSnapshot.key,
-              ...childSnapshot.val(),
-            };
-            productsArray.push(product);
-            keysArray.push(childSnapshot.key);
-          });
-          setProductWithKey(productsArray);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    onValue(productRef , (snapshot) => {
+      const dataProducts = snapshot.val();
+      const productsArray = Object.values(dataProducts);
+      setProducts(productsArray)
+      const idArray = Object.keys(dataProducts).map((key) => ({
+        id: key,
+        ...products[key],
+      }))
+      setProductID(idArray)
+    })
   }, []);
-
+  // console.log(productId)
   const handleDeleteProduct = (id) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this product?');
+    const productIndex = products.findIndex(item => {
+      return item.id === parseInt(id);
+    });
+      const key = productId[productIndex];
+      const keyId = key.id;
+    const confirmDelete = window.confirm('Are you sure you want to delete this product?  ' + id);
     if (confirmDelete) {
-      const productToDelete = products.find((product) => product.id === id);
-      if (productToDelete) {
-        const keyToDelete = productToDelete.id
-        const productRef = ref(database, `products/${keyToDelete}`);
+        const productRef = ref(database, `products/` + keyId );
         remove(productRef)
           .then(() => {
             console.log('Product deleted successfully', productRef);
@@ -50,7 +41,6 @@ const Products = () => {
       } else {
         console.error('Product not found');
       }
-    }
   };
     return (
         <div className='container mx-auto py-8'>

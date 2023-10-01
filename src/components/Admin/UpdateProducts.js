@@ -1,7 +1,7 @@
 import React, { useState , useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { database } from '../../firebase';
-import { ref, push, update, get } from "firebase/database";
+import { ref, update, get } from "firebase/database";
 import { CategoryContext } from '../../contexts/CategoryContext';
 
 const UpdateProduct = () => {
@@ -35,7 +35,6 @@ const UpdateProduct = () => {
               const productIndex = productsArray.findIndex(item => {
                 return item.id === parseInt(id);
               });
-      
               if (productIndex !== -1) {
                 const products = productsArray[productIndex];
                 const key = keysArray[productIndex];
@@ -75,9 +74,9 @@ const handleChange = (e) => {
         };
         await update(productRef, updatedProduct);
         console.log('Product updated successfully');
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
         console.error('Product with key not found');
       }
