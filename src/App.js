@@ -17,6 +17,7 @@ import UpdateProduct from './components/UpdateProducts';
 import CheckOut from './pages/CheckOut';
 import News from './pages/News';
 import MenuDashBoard from './components/MenuDashBoard';
+import Contact from './pages/Contact';
 const App = () => {
   return (
     <div className='overflow-hidden'>
@@ -68,6 +69,16 @@ const App = () => {
               <>
                 <Header />
                 <News />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path='/contact'
+            element={
+              <>
+                <Header />
+                <Contact />
                 <Footer />
               </>
             }

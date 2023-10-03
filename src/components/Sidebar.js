@@ -37,7 +37,7 @@ const Sidebar = () => {
       <FiTrash2 className='text-white' />
     </div>
   </div>
-  <Link to='/Checkout' className='bg-mint flex p-4 justify-center items-center text-primary w-full font-medium rounded-md'>
+  <Link to='/Checkout' onClick={handleClose} className='bg-mint flex p-4 justify-center items-center text-primary w-full font-medium rounded-md'>
     <span className='bg-gradient-to-l from-white to-black bg-clip-text text-transparent'>CheckOut</span>
   </Link>
 </div>
