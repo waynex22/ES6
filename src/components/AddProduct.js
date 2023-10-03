@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { database } from '../../firebase';
+import { database } from '../firebase';
 import { useContext } from 'react';
 import { ref, push, get } from 'firebase/database';
-import { CategoryContext } from '../../contexts/CategoryContext';
-
+import { CategoryContext } from '../contexts/CategoryContext';
+import { AdminContext } from '../contexts/AdminContext';
 const AddProduct = () => {
+  const { addProduct } = useContext(AdminContext)
   const { categorys } = useContext(CategoryContext);
   const [products, setProducts] = useState({
     title: '',
@@ -15,10 +16,9 @@ const AddProduct = () => {
     description: '',
   });
   const [lastProductId, setLastProductId] = useState(0); // To store the last product ID
-
   useEffect(() => {
     const productRef = ref(database, 'products/');
-
+    
     get(productRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -72,9 +72,7 @@ const AddProduct = () => {
       setProducts((prevProducts) => [...prevProducts, newProduct]);
 
       // Push the new product to the database
-      await push(productRef, newProduct);
-      console.log('Product added successfully');
-
+      addProduct(newProduct);
       setProducts({
         title: '',
         category: '',
@@ -82,9 +80,9 @@ const AddProduct = () => {
         image: '',
         description: '',
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     } catch (error) {
       console.error('Error adding product:', error);
     }

@@ -15,6 +15,8 @@ const CategoryProvider = ({children}) => {
     };
     fecthCategorys();
   }, [])
+
+  
   return <CategoryContext.Provider value={{categorys}}>{children}</CategoryContext.Provider>;
 };
 

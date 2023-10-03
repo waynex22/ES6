@@ -1,6 +1,7 @@
 import React from 'react';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
+import FilterProducts from '../components/fillerProducts';
 
 const Shop = () => {
   return (
@@ -12,7 +13,7 @@ const Shop = () => {
         <CategoryList />
       </div>
       <div className='w-full lg:w-[80%]'>
-        <ProductList />
+        <FilterProducts />
       </div>
     </div>
   );

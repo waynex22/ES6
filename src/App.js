@@ -2,20 +2,21 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
+import DashBoard from './pages/Admin/DashBoard';
 import ProductDetails from './pages/ProductDetails';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import NavLeft from './components/Admin/NavLeft';
-import Products from './components/Admin/Products';
-import DashBoard from './components/Admin/DashBoard';
-import Orders from './components/Admin/Orders';
-import AddProduct from './components/Admin/AddProduct';
-import Category from './components/Admin/Category';
-import AddCategory from './components/Admin/AddCategory';
-import UpdateProduct from './components/Admin/UpdateProducts';
+import ProductAdmin from './components/ProductAdmin';
+// import DashBoard from './components/Admin/DashBoard';
+import Orders from './components/Orders';
+import AddProduct from './components/AddProduct';
+import CategoryAdmin from './components/CategoryAdmin';
+import AddCategory from './components/AddCategory';
+import UpdateProduct from './components/UpdateProducts';
 import CheckOut from './pages/CheckOut';
 import News from './pages/News';
+import MenuDashBoard from './components/MenuDashBoard';
 const App = () => {
   return (
     <div className='overflow-hidden'>
@@ -27,6 +28,16 @@ const App = () => {
               <>
                 <Header />
                 <Home />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path='/shop'
+            element={
+              <>
+                <Header />
+                <Shop />
                 <Footer />
               </>
             }
@@ -70,47 +81,46 @@ const App = () => {
           </>
           }
           />
-          <Route path='/admin' element={<DashBoard />} />
-          <Route path='/admin/Products' element={
+          <Route path='/ProductAdmin' element={
             <>
             <div className='flex flex-row justify-between'>
-          <NavLeft />
-          <Products />
+          <MenuDashBoard />
+          <ProductAdmin />
           </div>
           </>
           }
            />
-           <Route path='/admin/Addproduct' element={
+           <Route path='/Addproduct' element={
             <>
             <div className='flex flex-row justify-between'>
-          <NavLeft />
+          <MenuDashBoard />
           <AddProduct />
           </div>
           </>
           }
            />
-          <Route path='/admin/Orders' element={
+          <Route path='/Orders' element={
             <>
             <div className='flex flex-row justify-between'>
-          <NavLeft />
+          <MenuDashBoard />
           <Orders />
           </div>
           </>
           }
            />
-          <Route path='/admin/category' element={
+          <Route path='/CategoryAdmin' element={
             <>
             <div className='flex flex-row justify-between'>
-          <NavLeft />
-          <Category />
+          <MenuDashBoard />
+          <CategoryAdmin />
           </div>
           </>
           }
            />
-          <Route path='/admin/addcategory' element={
+          <Route path='/AddCategory' element={
             <>
             <div className='flex flex-row justify-between'>
-          <NavLeft />
+          <MenuDashBoard />
           <AddCategory />
           </div>
           </>
@@ -120,9 +130,19 @@ const App = () => {
           element={
             <>
             <div className='flex flex-row justify-between'>
-            <NavLeft />
+            <MenuDashBoard />
           <UpdateProduct />
           </div>
+          </>
+          }
+          />
+           <Route path='/DashBoard' 
+          element={
+            <>
+            <div className='flex'>
+            <MenuDashBoard />
+            <DashBoard />
+            </div>
           </>
           }
           />

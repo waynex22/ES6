@@ -1,36 +1,33 @@
-import {  useEffect, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ref,remove, onValue } from 'firebase/database';
-import { database } from '../../firebase';
+import { ref,remove, onValue , get} from 'firebase/database';
+import { database } from '../firebase';
 import 'firebase/database';
 
-const Products = () => {
+const ProductAdmin = () => {
   const [products, setProducts] = useState([]);
-  const [productId, setProductID] = useState([]);
   useEffect(() => {
-    const productRef = ref(database, 'products/');
-    onValue(productRef , (snapshot) => {
-      const dataProducts = snapshot.val();
-      const productsArray = Object.values(dataProducts);
-      setProducts(productsArray)
-      const idArray = Object.keys(dataProducts).map((key) => ({
-        id: key,
-        ...products[key],
-      }))
-      setProductID(idArray)
-    })
+    const productRef = ref(database, 'products');
+    get(productRef)
+      .then((snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const productArray = Object.entries(data).map(([key, product]) => ({
+            key,
+            ...product,
+          }));
+          setProducts(productArray);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
   }, []);
-  // console.log(productId)
   const handleDeleteProduct = (id) => {
-    const productIndex = products.findIndex(item => {
-      return item.id === parseInt(id);
-    });
-      const key = productId[productIndex];
-      const keyId = key.id;
     const confirmDelete = window.confirm('Are you sure you want to delete this product?  ' + id);
     if (confirmDelete) {
-        const productRef = ref(database, `products/` + keyId );
+        const productRef = ref(database, `products/` + id );
         remove(productRef)
           .then(() => {
             console.log('Product deleted successfully', productRef);
@@ -45,7 +42,7 @@ const Products = () => {
     return (
         <div className='container mx-auto py-8'>
             <div className='mb-8'>
-                <Link to='/admin/addproduct' className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'>
+                <Link to='/Addproduct' className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'>
                     Add Product
                 </Link>
             </div>
@@ -77,7 +74,7 @@ const Products = () => {
                                     Edit
                                 </Link>
                                 <button
-                                onClick={() => handleDeleteProduct(product.id)}
+                                onClick={() => handleDeleteProduct(product.key)}
                                 className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full shadow-md'
                             >
                                 Delete
@@ -91,4 +88,4 @@ const Products = () => {
     )
 }
 
-export default Products;
+export default ProductAdmin;

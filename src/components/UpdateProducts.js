@@ -1,8 +1,8 @@
 import React, { useState , useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { database } from '../../firebase';
+import { database } from '../firebase';
 import { ref, update, get } from "firebase/database";
-import { CategoryContext } from '../../contexts/CategoryContext';
+import { CategoryContext } from '../contexts/CategoryContext';
 
 const UpdateProduct = () => {
     const {categorys} = useContext(CategoryContext);
@@ -86,7 +86,7 @@ const handleChange = (e) => {
   };
     return (
             <div  className='container mx-auto py-8'> 
-            <p className='text-2xl bg-mints text-white text-mint mb-10 font-semibold py-2 px-6 rounded-full shadow-md text-center '>Edit Product</p>
+            <p className='text-2xl bg-mints text-mint mb-10 font-semibold py-2 px-6 rounded-full shadow-md text-center '>Edit Product</p>
             <form onSubmit={handleSubmit}>
               <div className='mb-4'>
                 <label htmlFor='id' className='block text-gray-600 font-medium'>

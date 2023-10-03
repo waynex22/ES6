@@ -33,7 +33,7 @@ const Sidebar = () => {
       <span className='bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent'>Total : {parseFloat(total).toFixed(2)} $</span>
     </div>
     {/* remove all items */}
-    <div onClick={deleteAllCart} className='cursor-pointer bg-red-600 h-[50px] w-[50px] flex justify-center items-center text-2xl rounded-md'>
+    <div onClick={deleteAllCart}  className='cursor-pointer bg-red-600 h-[50px] w-[50px] flex justify-center items-center text-2xl rounded-md'>
       <FiTrash2 className='text-white' />
     </div>
   </div>

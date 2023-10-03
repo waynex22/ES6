@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
 import { ref, push, get } from 'firebase/database';
-import { database } from '../../firebase'; // Import Firebase
+import { database } from '../firebase'; // Import Firebase
 import 'firebase/database';
 
 const AddCategory = () => {

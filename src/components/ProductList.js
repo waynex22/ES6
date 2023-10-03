@@ -4,6 +4,7 @@ import Product from './Product';
 
 const ProductList = () => {
   const { products } = useContext(ProductContext);
+  
   return (
     <div className='flex justify-center items-center'>
       <section className='py-16'>
