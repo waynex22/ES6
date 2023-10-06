@@ -10,7 +10,6 @@ import CartProvider from './contexts/CartContext';
 import CategoryProvider from './contexts/CategoryContext';
 import AdminProvider from './contexts/AdminContext';
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AdminProvider>

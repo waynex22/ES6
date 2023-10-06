@@ -1,9 +1,9 @@
 import React from 'react';
 import CategoryList from '../components/CategoryList';
-import FilterProducts from '../components/fillerProducts';
 import FilterProductsPrice from '../components/FilterProductsPrice';
+import PriceFilter from '../components/PriceFilter';
 
-const Shop = () => {
+const PriceProducts = () => {
   return (
     <div className='flex flex-row lg:flex-row justify-center w-[90%] h-[auto] mx-auto mt-20'>
       <div className='w-full lg:w-[20%] h-[auto] lg:h-[500px] mt-4 py-12 lg:mr-4'>
@@ -14,10 +14,10 @@ const Shop = () => {
         <CategoryList />
       </div>
       <div className='w-full lg:w-[80%]'>
-        <FilterProducts />
+        <PriceFilter />
       </div>
     </div>
   );
 };
 
-export default Shop;
+export default PriceProducts;

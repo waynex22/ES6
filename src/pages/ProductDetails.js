@@ -21,7 +21,6 @@ const ProductDetails = () => {
       Loading...
     </section>
   }
-  // console.log(product)
   const {title , price , description , image} = product;
   return (
     <div>
@@ -36,7 +35,7 @@ const ProductDetails = () => {
         <div className='text-xl text-red-500 font-semibold mb-6'>{price} $</div>
         <p className=' mb-8 text-mint opacity-70 '>{description}</p>
         <button onClick={() => addToCart(product, product.id)} className='bg-mint py-4 px-8 text-white rounded-md '>Add to cart</button>
-        <Link to="/shop" className="bg-mint ml-5 hover:bg-mints bg-mint py-4 px-8 text-white rounded-md">
+        <Link to="/shop" className="bg-mint ml-5 hover:bg-mints py-4 px-8 text-white rounded-md">
         Back
       </Link>
       </div>

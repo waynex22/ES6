@@ -15,7 +15,7 @@ const AddProduct = () => {
     image: '',
     description: '',
   });
-  const [lastProductId, setLastProductId] = useState(0); // To store the last product ID
+  const [lastProductId, setLastProductId] = useState(0);
   useEffect(() => {
     const productRef = ref(database, 'products/');
     

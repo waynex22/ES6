@@ -1,28 +1,11 @@
 import React, {useState , useEffect , useContext} from 'react';
 import { Link } from 'react-router-dom'
 import { database } from '../firebase';
-import {get , remove , ref} from 'firebase/database'
-import {CategoryContext} from '../contexts/CategoryContext';
-
+import { remove , ref} from 'firebase/database'
+import LoadingSpinner from './PreLoad';
+import { AdminContext } from '../contexts/AdminContext';
 const CategoryAdmin = () => {
-    const [categorys, setCategorys] = useState([]);
-    useEffect(() => {
-      const categoryRef = ref(database, 'categorys');
-      get(categoryRef)
-        .then((snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            const categoryArray = Object.entries(data).map(([key, category]) => ({
-              key,
-              ...category,
-            }));
-            setCategorys(categoryArray);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching products:', error);
-        });
-    }, []);
+  const { categorys} = useContext(AdminContext)
     const handleDeleteCategory = (id) => {
       const confirmDelete = window.confirm('Are you sure you want to delete this product?  ' + id);
       if (confirmDelete) {
@@ -38,8 +21,15 @@ const CategoryAdmin = () => {
           console.error('category not found');
         }
     };
+    if(categorys.length === 0){
+      return <div className='flex justify-center items-center mx-auto'>
+        <LoadingSpinner />
+      </div>
+    }
   return (
     <div className='container mx-auto py-8'>
+      <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Categories</span> Mananger</h1>
+
       <div className='mb-8'>
                 <Link to='/AddCategory' className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'>
                     Add New Category

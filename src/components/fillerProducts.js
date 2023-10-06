@@ -6,7 +6,7 @@ import Product from './Product';
 const FilterProducts = () => {
     const { products } = useContext(ProductContext);
     const { categorys } = useContext(CategoryContext);
-    const [selectedCategory, setSelectedCategory] = useState(''); // Initialize with an empty string
+    const [selectedCategory, setSelectedCategory] = useState('');
     const filteredProducts = selectedCategory
         ? products.filter((item) => item.category === selectedCategory)
         : products;

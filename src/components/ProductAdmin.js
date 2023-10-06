@@ -1,29 +1,13 @@
-import {  useContext, useEffect, useState } from 'react';
+import {  Component , useContext, useEffect, useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ref,remove, onValue , get} from 'firebase/database';
+import { ref,remove} from 'firebase/database';
 import { database } from '../firebase';
 import 'firebase/database';
-
-const ProductAdmin = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const productRef = ref(database, 'products');
-    get(productRef)
-      .then((snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          const productArray = Object.entries(data).map(([key, product]) => ({
-            key,
-            ...product,
-          }));
-          setProducts(productArray);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  }, []);
+import LoadingSpinner from '../components/PreLoad';
+import { AdminContext } from '../contexts/AdminContext';
+const ProductAdmin  =  () => {
+  const { products } = useContext(AdminContext)
   const handleDeleteProduct = (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this product?  ' + id);
     if (confirmDelete) {
@@ -39,8 +23,15 @@ const ProductAdmin = () => {
         console.error('Product not found');
       }
   };
+  if(products.length === 0){
+    return <div className='flex justify-center items-center mx-auto'>
+      <LoadingSpinner />
+    </div>
+  }
     return (
         <div className='container mx-auto py-8'>
+            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Products</span> Mananger</h1>
+
             <div className='mb-8'>
                 <Link to='/Addproduct' className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'>
                     Add Product

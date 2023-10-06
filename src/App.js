@@ -8,7 +8,6 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProductAdmin from './components/ProductAdmin';
-// import DashBoard from './components/Admin/DashBoard';
 import Orders from './components/Orders';
 import AddProduct from './components/AddProduct';
 import CategoryAdmin from './components/CategoryAdmin';
@@ -18,6 +17,9 @@ import CheckOut from './pages/CheckOut';
 import News from './pages/News';
 import MenuDashBoard from './components/MenuDashBoard';
 import Contact from './pages/Contact';
+import OrderDetail from './components/OrderDetail';
+import CategoryProduct from './pages/CategoryProduct';
+import PriceProducts from './pages/PriceProducts';
 const App = () => {
   return (
     <div className='overflow-hidden'>
@@ -44,11 +46,21 @@ const App = () => {
             }
           />
           <Route
-            path='/shop'
+            path='/category/:name'
             element={
               <>
                 <Header />
-                <Shop />
+                <CategoryProduct />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+           path='/filterPrice/:minMaxValues'
+            element={
+              <>
+                <Header />
+                <PriceProducts />
                 <Footer />
               </>
             }
@@ -143,6 +155,16 @@ const App = () => {
             <div className='flex flex-row justify-between'>
             <MenuDashBoard />
           <UpdateProduct />
+          </div>
+          </>
+          }
+          />
+           <Route path='/OrderDetail/:orderId'
+          element={
+            <>
+            <div className='flex flex-row justify-between'>
+            <MenuDashBoard />
+          <OrderDetail />
           </div>
           </>
           }

@@ -86,7 +86,7 @@ const handleChange = (e) => {
   };
     return (
             <div  className='container mx-auto py-8'> 
-            <p className='text-2xl bg-mints text-mint mb-10 font-semibold py-2 px-6 rounded-full shadow-md text-center '>Edit Product</p>
+            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Edit</span> Products</h1>
             <form onSubmit={handleSubmit}>
               <div className='mb-4'>
                 <label htmlFor='id' className='block text-gray-600 font-medium'>

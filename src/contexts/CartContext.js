@@ -3,8 +3,17 @@ import React, {useState, createContext, useEffect} from 'react';
 export const CartContext = createContext(); 
 
 const CartProvider = ({children}) => {
+  
   // cart state
-  const [cart , setCart ] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // Load the cart from localStorage on component initialization
+    const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
+    return initialCart;
+  });
+   useEffect(() => {
+    // Save the cart to localStorage whenever it changes
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
   // items amount state
   const  [itemAmount , setItemAmount] = useState(0);
   // update amount cart

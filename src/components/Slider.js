@@ -19,11 +19,11 @@ const Slider = () => {
       </div>
       <div className='absolute top-0 left-0 w-full h-full flex justify-center items-center'>
         <button className='bg-white py-2 px-4 mx-2 rounded-lg'>
-          <a href='/link1' className='bg-gradient-to-r from-black to-blue-500 bg-clip-text text-transparent'>
+          <a href='/link1' className='text-black'>
             Fanpage
           </a>
         </button>
-        <button className='bg-transparent border hover:text-gray-400 bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent hover:bg-white border-white py-2 px-4 mx-2 rounded-lg'>
+        <button className='bg-transparent border text-white hover:bg-white hover:text-black border-white py-2 px-4 mx-2 rounded-lg'>
           <a href='/link2'>Instagram</a>
         </button>
       </div>
