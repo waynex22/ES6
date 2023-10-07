@@ -20,6 +20,7 @@ import Contact from './pages/Contact';
 import OrderDetail from './components/OrderDetail';
 import CategoryProduct from './pages/CategoryProduct';
 import PriceProducts from './pages/PriceProducts';
+
 const App = () => {
   return (
     <div className='overflow-hidden'>
@@ -46,22 +47,26 @@ const App = () => {
             }
           />
           <Route
-            path='/category/:name'
+            path='/shop/:name'
             element={
               <>
+              <div className='flex flex-col min-h-screen'>
                 <Header />
                 <CategoryProduct />
                 <Footer />
+                </div>
               </>
             }
           />
           <Route
-           path='/filterPrice/:minMaxValues'
+           path='/shop/filterPrice/:minMaxValues'
             element={
               <>
+              <div className='flex flex-col min-h-screen'>
                 <Header />
                 <PriceProducts />
                 <Footer />
+                </div>
               </>
             }
           />
@@ -89,9 +94,11 @@ const App = () => {
             path='/contact'
             element={
               <>
+              <div className='flex flex-col min-h-screen'>
                 <Header />
                 <Contact />
                 <Footer />
+                </div>
               </>
             }
           />

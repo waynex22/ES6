@@ -5,7 +5,7 @@ import logo from '../img/logo.png'
 import { Link } from 'react-router-dom'
 const Footer = () => {
   return (
-      <footer className='bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] dark:bg-gray-900 m-4'>
+      <footer className='bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] dark:bg-gray-900 m-4 mt-auto '>
           <div className='w-full max-w-screen-xl mx-auto p-4 md:py-8'>
               <div className='sm:flex sm:items-center sm:justify-between'>
                   <Link  to='/' className='flex items-center mb-4 sm:mb-0'>

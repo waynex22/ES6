@@ -41,14 +41,13 @@ const Product = ({ product }) => {
         <div className='font-semibold mb-1'>${price}</div>
       </div>
       <div>
-        <Button
-          onClick={() => addToCart(product, id)}
-          className='relative inline-flex items-center justify-center p-4 px-5 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out rounded-full shadow-xl group hover:ring-1 hover:ring-white'
-        >
-          <span className='absolute inset-0 w-full h-full bg-gradient-to-br from-blue-400 via-mint to-mint'></span>
-          <span className='absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-white rounded-full opacity-30 group-hover:rotate-90 ease'></span>
-          <span className='relative text-white'>Add To Cart</span>
-        </Button>
+        <button onClick={() => addToCart(product, id)} class="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
+        <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span class="relative">Add to cart</span>
+        </button>
       </div>
     </div>
   </div>;

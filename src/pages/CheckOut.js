@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
-
+import gsap from 'gsap';
 import { ref, push, get } from 'firebase/database';
 import { database } from '../firebase';
 import { CartContext } from '../contexts/CartContext';
-
+import emptycart from '../img/empty-cart.png'
 import vietnam from '../img/vietnam.png'
+import ship1 from '../img/ship1.png'
+import ship2 from '../img/ship2.png'
+
 
 const CheckOut = () => {
-    const { cart, total } = useContext(CartContext);
+    const { cart, total, deleteAllCart } = useContext(CartContext);
     const currentDate = new Date();
     const [order, setOrder] = useState({
         user_name: '',
@@ -84,29 +87,134 @@ const CheckOut = () => {
                 quantity: item.amount,
                 price: item.price * item.amount,
             }));
-            for (const orderDetailItem of orderDetailsArray) {
-                await push(orderDetalRef, orderDetailItem);
-            }
-            setOrderDetail({
-                order_id: '',
-                product_id: '',
-                quantity: '',
-                price: '',
-            });
-            setOrder({
-                user_name: '',
-                user_mail: '',
-                user_phone: '',
-                user_address: '',
-                create_date: currentDate.toString(),
-            });
-
+            setTimeout(() => {
+                for (const orderDetailItem of orderDetailsArray) {
+                    push(orderDetalRef, orderDetailItem);
+                }
+                setOrderDetail({
+                    order_id: '',
+                    product_id: '',
+                    quantity: '',
+                    price: '',
+                });
+                setOrder({
+                    user_name: '',
+                    user_mail: '',
+                    user_phone: '',
+                    user_address: '',
+                    create_date: currentDate.toString(),
+                });
+                deleteAllCart();
+            }, 5000);
         } catch (error) {
             console.error('Error adding order:', error);
         }
     };
+    document.querySelectorAll('.truck-button').forEach(button => {
+        button.addEventListener('click', e => {
+
+            e.preventDefault();
+
+            let box = button.querySelector('.box'),
+                truck = button.querySelector('.truck');
+
+            if (!button.classList.contains('done')) {
+
+                if (!button.classList.contains('animation')) {
+
+                    button.classList.add('animation');
+
+                    gsap.to(button, {
+                        '--box-s': 1,
+                        '--box-o': 1,
+                        duration: .3,
+                        delay: .5
+                    });
+
+                    gsap.to(box, {
+                        x: 0,
+                        duration: .4,
+                        delay: .7
+                    });
+
+                    gsap.to(button, {
+                        '--hx': -5,
+                        '--bx': 50,
+                        duration: .18,
+                        delay: .92
+                    });
+
+                    gsap.to(box, {
+                        y: 0,
+                        duration: .1,
+                        delay: 1.15
+                    });
+
+                    gsap.set(button, {
+                        '--truck-y': 0,
+                        '--truck-y-n': -26
+                    });
+
+                    gsap.to(button, {
+                        '--truck-y': 1,
+                        '--truck-y-n': -25,
+                        duration: .2,
+                        delay: 1.25,
+                        onComplete() {
+                            gsap.timeline({
+                                onComplete() {
+                                    button.classList.add('done');
+                                }
+                            }).to(truck, {
+                                x: 0,
+                                duration: .4
+                            }).to(truck, {
+                                x: 40,
+                                duration: 1
+                            }).to(truck, {
+                                x: 20,
+                                duration: .6
+                            }).to(truck, {
+                                x: 96,
+                                duration: .4
+                            });
+                            gsap.to(button, {
+                                '--progress': 1,
+                                duration: 2.4,
+                                ease: "power2.in"
+                            });
+                        }
+                    });
+
+                }
+
+            } else {
+                button.classList.remove('animation', 'done');
+                gsap.set(truck, {
+                    x: 4
+                });
+                gsap.set(button, {
+                    '--progress': 0,
+                    '--hx': 0,
+                    '--bx': 0,
+                    '--box-s': .5,
+                    '--box-o': 0,
+                    '--truck-y': 0,
+                    '--truck-y-n': -26
+                });
+                gsap.set(box, {
+                    x: -24,
+                    y: -6
+                });
+            }
+
+        });
+    });
+
     if (cart.length === 0) {
-        return <div>You not have item in Cart</div>
+        return <div className="flex justify-center items-center mx-auto min-h-screen">
+            <img src={emptycart} />
+        </div>
     } else {
         return (
             <div className="h-full w-full mt-24">
@@ -121,13 +229,11 @@ const CheckOut = () => {
                                         ></a>
                                     <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shop</span>
                                 </li>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                                </svg>
-                                <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                                    <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2" href="#">2</a>
-                                    <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shipping</span>
-                                </li>
+                                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
+                                ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
+                                    ></a>
+                                <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shipping</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
@@ -179,7 +285,7 @@ const CheckOut = () => {
                                 <input className="peer hidden" id="radio_1" type="radio" name="radio" checked />
                                 <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                                 <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_1">
-                                    <img className="w-14 object-contain" alt="" />
+                                    <img className="w-14 object-contain" src={ship1} alt="" />
                                     <div className="ml-5">
                                         <span className="mt-2 font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Fedex Delivery</span>
                                         <p className="bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent text-sm leading-6">Delivery: 2-4 Days</p>
@@ -190,7 +296,7 @@ const CheckOut = () => {
                                 <input className="peer hidden" id="radio_2" type="radio" name="radio" checked />
                                 <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                                 <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_2">
-                                    <img className="w-14 object-contain" alt="" />
+                                    <img className="w-14 object-contain" src={ship2} alt="" />
                                     <div className="ml-5">
                                         <span className="mt-2 font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Fedex Delivery</span>
                                         <p className="bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent text-sm leading-6">Delivery: 2-4 Days</p>
@@ -204,7 +310,7 @@ const CheckOut = () => {
                         <p className="bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Complete your order by providing your payment details.</p>
                         <div className="">
                             <form onSubmit={handleSubmit} className='mb-8'>
-                                <label for="email" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Email</label>
+                                <label htmlFor="user_mail" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Email</label>
                                 <div className="relative">
                                     <input type='text'
                                         id='user_mail'
@@ -282,7 +388,21 @@ const CheckOut = () => {
                                     <p className="text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Total</p>
                                     <p className="text-2xl font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">$ {parseFloat(total).toFixed(2)}</p>
                                 </div>
-                                <button type='submit' className="mt-4 mb-8 w-full rounded-md bg-mint px-6 py-3 font-medium text-white">Place Order</button>
+                                <button onClick={handleSubmit} type="sumit" class="truck-button">
+                                    <span class="default">Complete Order</span>
+                                    <span class="success">
+                                        Order Placed
+                                        <svg viewbox="0 0 12 10">
+                                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                        </svg>
+                                    </span>
+                                    <div class="truck">
+                                        <div class="wheel"></div>
+                                        <div class="back"></div>
+                                        <div class="front"></div>
+                                        <div class="box"></div>
+                                    </div>
+                                </button>
                             </form>
                         </div>
 

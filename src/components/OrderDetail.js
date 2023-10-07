@@ -1,17 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
-import { ref, get } from 'firebase/database';
-import { Link } from 'react-router-dom'
+import { ref, update } from 'firebase/database';
 import { database } from '../firebase'
 import { useParams } from 'react-router-dom';
 import { ProductContext } from '../contexts/ProductContext';
 import LoadingSpinner from '../components/PreLoad'
- 
+import { AdminContext } from '../contexts/AdminContext';
+
 const OrderDetail = () => {
   const { products } = useContext(ProductContext)
+  const { getData } = useContext(AdminContext)
   const { orderId } = useParams();
   const [orderDetails, setOrderDetails] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0);
+  const [statusOrder, setstatusOrder] = useState(0);
+  const [orderKey , setOrderKey] = useState('')
 
   useEffect(() => {
     const total = orderDetails.reduce((acamulator, currenItem) => {
@@ -19,51 +22,55 @@ const OrderDetail = () => {
     }, 0)
     setTotal(total);
   })
-  console.log(total)
+  // console.log(total)
   useEffect(() => {
     const orderDetailRef = ref(database, `order_detail/`);
-    get(orderDetailRef)
-      .then((snapshot) => {
-        const data = snapshot.val();
-        if (snapshot.exists()) {
-          const detailsArray = Object.entries(data).map(([key, order]) => ({
-            key,
-            ...order,
-          }));
-          const orderDetail = detailsArray.filter((item => {
+    getData(orderDetailRef)
+      .then((dataArray) => {
+        if (dataArray) {
+          const orderDetail = dataArray.filter((item => {
             return item.order_id === parseInt(orderId);
           }))
           setOrderDetails(orderDetail)
         } else {
-          console.log('No order details found for this order ID.');
+          console.log("No data found.");
         }
       })
       .catch((error) => {
-        console.error('Error fetching order details:', error);
+        console.error("Error:", error);
       });
+
   }, []);
   useEffect(() => {
     const orderRef = ref(database, `orders/`);
-    get(orderRef)
-      .then((snapshot) => {
-        const data = snapshot.val();
-        if (snapshot.exists()) {
-          const orderArray = Object.entries(data).map(([key, order]) => ({
-            key,
-            ...order,
-          }));
-          const order = orderArray.filter((item => {
-            return item.id === parseInt(orderId);
-          }))
+    getData(orderRef)
+      .then((dataArray) => {
+        if (dataArray) {
+          const order = dataArray.filter((item) => {
+            return item.id === parseInt(orderId)
+          })
+          const status = order.map((item) => {
+            return (item.status);
+          })
+          const key = order.map((item) => {
+            return (item.key);
+          })
+         
+          const keyOrder = key[0];
+          // console.log(keyOrder)
+          setOrderKey(keyOrder)
+          const firstStatus = status[0];
+          setstatusOrder(firstStatus)
+          // console.log(firstStatus)
           setOrder(order)
-          // console.log(order)
-        } else {
-          console.log('No order details found for this order ID.');
+        }
+        else {
+          console.log("no data found")
         }
       })
       .catch((error) => {
-        console.error('Error fetching order details:', error);
-      });
+        console.log("Error :", error)
+      })
   }, []);
   const productIdByOrder = orderDetails.map((id) => {
     return id.product_id;
@@ -72,44 +79,63 @@ const OrderDetail = () => {
     return products.find((product) => parseInt(product.id) === productId);
   });
   //  console.log(order)
-  if(orderDetails.length === 0){
+  const handleButtonClick = async (e) => {
+    try {
+      const ship = statusOrder + 1;
+      setstatusOrder(ship);
+      const refOrder = ref(database, 'orders/' + orderKey);
+      if(statusOrder < 2) {
+      await update(refOrder, { status: ship });
+      console.log('Status updated successfully.');
+    }else {
+      console.log("!!!")
+    }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+  if (orderDetails.length === 0) {
     return <div className='flex justify-center items-center mx-auto'>
       <LoadingSpinner />
     </div>
   }
   return (
     <div className="h-full w-full mt-24">
-      <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Order</span> Detail</h1>
-
+      <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Order</span> Detail</h1>
       <div className="flex flex-col  items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+        {/* Status order */}
         <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
           <div className="relative">
-            <h2>Status</h2>
+            <h2 className='font-semibold text-2xl bg-gradient-to-r from-mint to-blue-700 bg-clip-text text-transparent mb-4'>Status Action</h2>
             <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
-              <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
-                ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
-                  ></a>
-                <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">confirm</span>
+              <li className={`flex items-center space-x-3 text-left sm:space-x-4 ${statusOrder >= 0 ? 'text-emerald-700' : 'text-gray-400'}`}>
+                <a className={`flex h-6 w-6 items-center justify-center rounded-full ${statusOrder >= 0 ? 'bg-emerald-200' : 'bg-gray-400'} text-xs font-semibold ${statusOrder >= 0 ? 'text-emerald-700' : 'text-gray-700'}`} >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </a>
+                <span className={`font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent ${statusOrder >= 1 ? 'text-transparent' : 'text-gray-400'}`}>confirm</span>
               </li>
+              <a className={`flex h-6 w-6 items-center justify-center rounded-full ${statusOrder >= 1 ? 'bg-emerald-200' : 'bg-gray-400'} text-xs font-semibold ${statusOrder >= 1 ? 'text-emerald-700' : 'text-gray-700'}`} >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </a>
+              <button onClick={handleButtonClick} id="shipping-status" className={`font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent ${statusOrder >= 2 ? 'text-transparent' : 'text-gray-400'}`}>Shipping</button>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
-              <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2" href="#">2</a>
-                <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shipping</span>
-              </li>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-              <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white" href="#">3</a>
-                <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shipped</span>
-              </li>
+              <a className={`flex h-6 w-6 items-center justify-center rounded-full ${statusOrder >= 2 ? 'bg-emerald-200' : 'bg-gray-400'} text-xs font-semibold ${statusOrder >= 2 ? 'text-emerald-700' : 'text-gray-700'}`} >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </a>
+              <button onClick={handleButtonClick} id="shipped-status" className={`font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent ${statusOrder >= 2 ? 'text-transparent' : 'text-gray-400'}`}>Shipped</button>
             </ul>
           </div>
         </div>
+
       </div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">

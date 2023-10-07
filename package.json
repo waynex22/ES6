@@ -11,6 +11,7 @@
     "chart.js": "^4.4.0",
     "firebase": "^10.4.0",
     "flowbite-react": "^0.6.3",
+    "gsap": "^3.12.2",
     "jquery": "^3.7.1",
     "lucide-react": "^0.279.0",
     "rc-slider": "^10.3.0",

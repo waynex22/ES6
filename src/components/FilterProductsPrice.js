@@ -52,7 +52,7 @@ const FilterProductsPrice = () => {
         </div>
       </div>
       <Link
-          to={`/filterPrice/${minValue},${maxValue}`}
+          to={`/shop/filterPrice/${minValue},${maxValue}`}
           type='submit'
           className='relative mt-5  p-4 px-5 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out rounded-full shadow-xl group hover:ring-1 hover:ring-white'>
           <span className='absolute inset-0 w-full h-full bg-gradient-to-br from-blue-400 via-mint to-mint'></span>

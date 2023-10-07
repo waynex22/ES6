@@ -34,10 +34,20 @@ const ProductDetails = () => {
         <h1 className='text-[26px] font-medium mb-2 max-w-[420px] mx-auto text-mint'>{title}</h1>
         <div className='text-xl text-red-500 font-semibold mb-6'>{price} $</div>
         <p className=' mb-8 text-mint opacity-70 '>{description}</p>
-        <button onClick={() => addToCart(product, product.id)} className='bg-mint py-4 px-8 text-white rounded-md '>Add to cart</button>
-        <Link to="/shop" className="bg-mint ml-5 hover:bg-mints py-4 px-8 text-white rounded-md">
-        Back
-      </Link>
+        <button onClick={() => addToCart(product, product.id)} class="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
+        <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span class="relative">Add to cart</span>
+        </button>
+        <Link to='/shop'  class="px-5 mx-5 py-2.5 relative rounded group text-white font-medium inline-block">
+        <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span class="relative">Back</span>
+        </Link>
       </div>
       </div>
     </div>

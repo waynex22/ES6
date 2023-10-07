@@ -80,105 +80,80 @@ const AddProduct = () => {
         image: '',
         description: '',
       });
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error('Error adding product:', error);
     }
   };
   return (
     <div className='container mx-auto py-8'>
+      <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Add</span> Product</h1>
       <form onSubmit={handleSubmit} className='mb-8'>
-        <div className='mb-4'>
-          <label htmlFor='title' className='block text-gray-700 font-bold mb-2'>
-            Product Name
-          </label>
-          <input
-            type='text'
-            id='name'
-            name='title'
-            value={products.title}
-            onChange={handleChange}
-            className='border rounded-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full'
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label htmlFor='price' className='block text-gray-700 font-bold mb-2'>
-            Price
-          </label>
-          <input
-            type='text'
-            id='price'
-            name='price'
-            onChange={handleChange}
-            className='border rounded-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full'
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label htmlFor='image' className='block text-gray-700 font-bold mb-2'>
-            Image URL
-          </label>
-          <input
-            type='text'
-            id='image'
-            name='image'
-            value={products.image}
-            onChange={handleChange}
-            className='border rounded-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full'
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='category'
-            className='block text-gray-700 font-bold mb-2'
-          >
-            Category
-          </label>
-          <select
-            id='category'
-            name='category'
-            value={products.category}
-            onChange={handleChange}
-            className='border rounded-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full'
-            required
-          >
-            <option value='' disabled>
-              Select a category
-            </option>
-            {categorys.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
+      <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+          <div class="w-full">
+            <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name Product</label>
+            <input type='text'
+              id='title'
+              name='title'
+              value={products.title}
+              onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Product name" required="" />
+          </div>
+          <div class="w-full">
+            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+            <input type='text'
+              id='price'
+              name='price'
+              value={products.price}
+              onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$299" required="" />
+          </div>
+          <div>
+            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+            <select id='category'
+              name='category'
+              value={products.category}
+              onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value='' disabled>
+                Select a category
               </option>
-            ))}
-          </select>
+              {categorys.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
+            <input type='text'
+              id='image'
+              name='image'
+              value={products.image}
+              onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="URL Image" required="" />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <textarea id='description'
+              name='description'
+              value={products.description}
+              onChange={handleChange} rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write a product description here..."></textarea>
+          </div>
         </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='description'
-            className='block text-gray-700 font-bold mb-2'
-          >
-            Description
-          </label>
-          <textarea
-            id='description'
-            name='description'
-            value={products.description}
-            onChange={handleChange}
-            className='border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:border-blue-300 w-full h-24 resize-none'
-          />
-        </div>
-        <button
-          type='submit'
-          className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'
-        >
-          Add Product
+        <button type='sumit' class="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
+          <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span class="relative">Add Product</span>
         </button>
       </form>
-      <Link to='/admin/products' className='bg-mint hover:bg-mints text-white font-semibold py-2 px-6 rounded-full shadow-md'>
-        Back
+      <Link to='/ProductAdmin'class="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
+      <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span class="relative">Back to dashBoardt</span>
       </Link>
     </div>
 

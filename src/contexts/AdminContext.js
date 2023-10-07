@@ -6,6 +6,27 @@ import { database } from '../firebase';
 export const AdminContext = createContext(); 
 
 const AdminProvider = ({children}) => {
+  // getData from firebase
+
+  const getData = (ref) => {
+    return get(ref) // Assuming `get` is a Firebase function
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const dataArray = Object.entries(data).map(([key, value]) => ({
+            key,
+            ...value,
+          }));
+          return dataArray;
+        } else {
+          return null; // Return null if the data doesn't exist
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        throw error; // You can choose to handle errors differently if needed
+      });
+  };
   // get products
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -74,7 +95,7 @@ const AdminProvider = ({children}) => {
     }
   };
 
-return <AdminContext.Provider value={{ addProduct,  products, categorys ,orders}}>{children}</AdminContext.Provider>;
+return <AdminContext.Provider value={{ getData , addProduct,  products, categorys ,orders}}>{children}</AdminContext.Provider>;
 };
 
 export default AdminProvider;

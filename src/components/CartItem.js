@@ -19,18 +19,18 @@ const CartItem = ({item}) => {
         <div className='flex justify-between items-center mb-2'>
           <Link to={`/product/${id}`} className='text-sm uppercase font-medium m-w-[240px] bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent hover:underline'>{title}</Link>
           <div onClick={() => removeFromCart(id)} className='text-xl cursor-pointer'>
-            <IoMdClose className='text-gray-500 hover:text-red-600  transition' />
+            <IoMdClose className='text-red-600 transition' />
           </div>
         </div>
         <div className='flex gap-x-2 h-[36px] text-sm'>
-          <div className='flex flex-1  max-w-[100px] justify-between items-center h-full border text-primary font-medium px-2'>
+          <div className='flex flex-1  max-w-[100px] justify-between items-center h-full  text-mint font-medium px-2'>
             {/* - icon*/}
-            <div onClick={() =>minusAmountItems(id)} className='cursor-pointer'>
+            <div onClick={() =>minusAmountItems(id)} className='cursor-pointer text-red-600'>
             <IoMdRemove />
             </div>
             <div>{amount}</div>
             {/* + icons */}
-            <div onClick={() => plusAmountItems(id)} className='cursor-pointer'>
+            <div onClick={() => plusAmountItems(id)} className='cursor-pointer text-black'>
               <IoMdAdd />
             </div>
           </div>
