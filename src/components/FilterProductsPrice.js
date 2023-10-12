@@ -5,8 +5,8 @@ import Slider from 'rc-slider';
 import { ProductContext } from '../contexts/ProductContext';
 const FilterProductsPrice = () => {
   const { products } = useContext(ProductContext)
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(0);
+  const [minValue, setMinValue] = useState(50);
+  const [maxValue, setMaxValue] = useState(100);
   const priceArray = products.map((product) => {
     return product.price
   })
@@ -50,8 +50,7 @@ const FilterProductsPrice = () => {
             <span>{maxValue.toFixed(2)} $</span>
           </div>
         </div>
-      </div>
-      <Link
+        <Link
           to={`/shop/filterPrice/${minValue},${maxValue}`}
           type='submit'
           className='relative mt-5  p-4 px-5 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out rounded-full shadow-xl group hover:ring-1 hover:ring-white'>
@@ -59,6 +58,8 @@ const FilterProductsPrice = () => {
           <span className='absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-white rounded-full opacity-30 group-hover:rotate-90 ease'></span>
           <span className='relative text-white'>Filter</span>
         </Link>
+      </div>
+      
     </div>
   );
 };

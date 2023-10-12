@@ -2,13 +2,12 @@ import React, { useContext } from 'react';
 // links
 import { Link } from 'react-router-dom';
 //  icon
+import PropTypes from 'prop-types';
 // cart context
 import { CartContext } from '../contexts/CartContext';
-import { Button } from 'flowbite-react';
 const Product = ({ product }) => {
   const { addToCart } = useContext(CartContext)
   // console.log(product);
-  // destructure product
   const { id, image, category, title, price } = product;
   return <div>
     <div className='border border-[#82B3C2] shadow-md rounded-md h-[300px] mb-4 relative overflow-hidden group transition'>
@@ -41,15 +40,25 @@ const Product = ({ product }) => {
         <div className='font-semibold mb-1'>${price}</div>
       </div>
       <div>
-        <button onClick={() => addToCart(product, id)} class="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
-        <span class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
-          <span class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
-          <span class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
-          <span class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
-          <span class="relative">Add to cart</span>
+        <button onClick={() => addToCart(product, id)} className="px-5 py-2.5 relative rounded group text-white font-medium inline-block">
+        <span className="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-mint to-blue-500"></span>
+          <span className="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-mint to-blue-500"></span>
+          <span className="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-mint to-blue-500"></span>
+          <span className="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-mint from-blue-500"></span>
+          <span className="relative">Add to cart</span>
         </button>
       </div>
     </div>
   </div>;
+};
+
+Product.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+  }).isRequired,
 };
 export default Product;

@@ -29,7 +29,7 @@ const Home = () => {
     <section className='py-16'>
       <div className='container mx-auto' >
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0 '>
-          {products.map(product => {
+          {products.map(product => {  
             return <Product product = {product} key={product.id} />;
           })}
         </div>
@@ -37,7 +37,7 @@ const Home = () => {
     </section>
     <div className='mx-auto flex justify-center items-center p-2'>
     <p
-  class='text-[50px] bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent font-semibold border-b-2 border-mint'>
+  className='text-[50px] bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent font-semibold border-b-2 border-mint'>
   Awesome Feedback
 </p>
 </div>

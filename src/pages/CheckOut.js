@@ -7,9 +7,10 @@ import emptycart from '../img/empty-cart.png'
 import vietnam from '../img/vietnam.png'
 import ship1 from '../img/ship1.png'
 import ship2 from '../img/ship2.png'
-
+import { useNavigate } from "react-router-dom";
 
 const CheckOut = () => {
+    const history = useNavigate();
     const { cart, total, deleteAllCart } = useContext(CartContext);
     const currentDate = new Date();
     const [order, setOrder] = useState({
@@ -79,7 +80,6 @@ const CheckOut = () => {
                 ...order,
             };
             setOrders((prevOrders) => [...prevOrders, newOrder]);
-
             await push(orderRef, newOrder);
             const orderDetailsArray = cart.map((item) => ({
                 order_id: newOrder.id,
@@ -97,6 +97,7 @@ const CheckOut = () => {
                     quantity: '',
                     price: '',
                 });
+                console.log(orderDetail)
                 setOrder({
                     user_name: '',
                     user_mail: '',
@@ -104,6 +105,7 @@ const CheckOut = () => {
                     user_address: '',
                     create_date: currentDate.toString(),
                 });
+                history('ThanksOrder')
                 deleteAllCart();
             }, 5000);
         } catch (error) {
@@ -224,18 +226,18 @@ const CheckOut = () => {
                             <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
                                     <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
-                                    ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
+                                    ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg
                                         ></a>
                                     <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shop</span>
                                 </li>
                                 <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
-                                ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
+                                ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg
                                     ></a>
                                 <span className="font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Shipping</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
                                 <li className="flex items-center space-x-3 text-left sm:space-x-4">
                                     <a className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white" href="#">3</a>
@@ -284,7 +286,7 @@ const CheckOut = () => {
                             <div className="relative">
                                 <input className="peer hidden" id="radio_1" type="radio" name="radio" checked />
                                 <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                                <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_1">
+                                <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" >
                                     <img className="w-14 object-contain" src={ship1} alt="" />
                                     <div className="ml-5">
                                         <span className="mt-2 font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Fedex Delivery</span>
@@ -295,7 +297,7 @@ const CheckOut = () => {
                             <div className="relative">
                                 <input className="peer hidden" id="radio_2" type="radio" name="radio" checked />
                                 <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-                                <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_2">
+                                <label className="peer-checked:border-2 peer-checked:border-mints peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4">
                                     <img className="w-14 object-contain" src={ship2} alt="" />
                                     <div className="ml-5">
                                         <span className="mt-2 font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Fedex Delivery</span>
@@ -318,12 +320,12 @@ const CheckOut = () => {
                                         value={orders.user_mail}
                                         onChange={handleChange} className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="your.email@gmail.com" />
                                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                         </svg>
                                     </div>
                                 </div>
-                                <label for="card-holder" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">User Name</label>
+                                <label htmlFor="card-holder" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">User Name</label>
                                 <div className="relative">
                                     <input
                                         type='text'
@@ -333,8 +335,8 @@ const CheckOut = () => {
                                         onChange={handleChange}
                                         className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Your full name here" />
                                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
                                         </svg>
                                     </div>
                                 </div>
@@ -345,7 +347,7 @@ const CheckOut = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label for="phone" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Phone Number</label>
+                                        <label htmlFor="phone" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Phone Number</label>
                                         <input
                                             type='text'
                                             id='user_phone'
@@ -355,7 +357,7 @@ const CheckOut = () => {
                                             className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="+84" />
                                     </div>
                                 </div>
-                                <label for="billing-address" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Your Address</label>
+                                <label htmlFor="billing-address" className="mt-4 mb-2 block text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Your Address</label>
                                 <div className="flex flex-col sm:flex-row">
                                     <div className="relative flex-shrink-0 sm:w-7/12">
                                         <input
@@ -370,7 +372,7 @@ const CheckOut = () => {
                                         </div>
                                     </div>
                                     <select type="text" name="billing-state" className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500">
-                                        <option value="State">State</option>
+                                        <option value="State">VietNam</option>
                                     </select>
                                     <input type="text" name="billing-zip" className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" />
                                 </div>
@@ -388,19 +390,19 @@ const CheckOut = () => {
                                     <p className="text-sm font-medium bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">Total</p>
                                     <p className="text-2xl font-semibold bg-gradient-to-r from-mint to-blue-400 bg-clip-text text-transparent">$ {parseFloat(total).toFixed(2)}</p>
                                 </div>
-                                <button onClick={handleSubmit} type="sumit" class="truck-button">
-                                    <span class="default">Complete Order</span>
-                                    <span class="success">
+                                <button onClick={handleSubmit} type="sumit" className="truck-button">
+                                    <span className="default">Complete Order</span>
+                                    <span className="success">
                                         Order Placed
-                                        <svg viewbox="0 0 12 10">
+                                        <svg viewBox="0 0 12 10">
                                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                                         </svg>
                                     </span>
-                                    <div class="truck">
-                                        <div class="wheel"></div>
-                                        <div class="back"></div>
-                                        <div class="front"></div>
-                                        <div class="box"></div>
+                                    <div className="truck">
+                                        <div className="wheel"></div>
+                                        <div className="back"></div>
+                                        <div className="front"></div>
+                                        <div className="box"></div>
                                     </div>
                                 </button>
                             </form>

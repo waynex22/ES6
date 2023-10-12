@@ -1,5 +1,4 @@
 import React from 'react';
-import BarChart from '../../components/Chart';
 import Statistics from '../../components/Statistics';
 
 const DashBoard = () => {

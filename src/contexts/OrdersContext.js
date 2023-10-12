@@ -1,5 +1,6 @@
 import React , {createContext, useState, useEffect} from 'react';
 // create context
+import PropTypes from 'prop-types'; // Import PropTypes
  export const OrderContext = createContext();
 
 
@@ -13,16 +14,14 @@ const OrderProvider = ({children}) => {
       const orders = Object.values(data);
       setOrders(orders);
     };
-    if(data.length === 0){
-      return <div className='flex justify-center items-center mx-auto'>
-        <LoadingSpinner />
-      </div>
-    }
     fecthOrders();
   }, [])
 
   
   return <OrderContext.Provider value={{orders}}>{children}</OrderContext.Provider>;
+};
+OrderProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default OrderProvider;

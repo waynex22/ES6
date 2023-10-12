@@ -1,5 +1,6 @@
 import React, {useState, createContext, useEffect} from 'react';
 //  create context
+import PropTypes from 'prop-types'; // Import PropTypes
 export const CartContext = createContext(); 
 
 const CartProvider = ({children}) => {
@@ -95,5 +96,7 @@ const CartProvider = ({children}) => {
   })
   return <CartContext.Provider value={{cart, addToCart, removeFromCart, deleteAllCart, plusAmountItems, minusAmountItems, itemAmount, setItemAmount, total}}>{children}</CartContext.Provider>;
 };
-
+CartProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default CartProvider;

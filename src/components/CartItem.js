@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 //  link
 import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types';
 // icons
 import {IoMdAdd, IoMdClose, IoMdRemove} from 'react-icons/io'
 // cart context 
@@ -40,6 +41,16 @@ const CartItem = ({item}) => {
       </div>
     </div>
   </div>
+  
 )};
+CartItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    amount: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default CartItem;

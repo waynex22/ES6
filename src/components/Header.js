@@ -26,7 +26,7 @@ const Header = () => {
     <div className='flex items-center mx-auto w-[90%]'>
   <Link to={`/`} className='mr-4'>
     <div>
-    <img src={Logo} class='h-20 mr-3' alt='Zics Store Logo' />
+    <img src={Logo} className='h-20 mr-3' alt='Zics Store Logo' />
     </div>
   </Link>
   <Link to='/shop' className='text-[20px] ml-4 bg-gradient-to-r  from-black to-mints  bg-clip-text text-transparent'>

@@ -37,7 +37,7 @@
 .truck-button {
   --color: #fff;
   --background: #2b3044;
-  --tick: #16bf78;
+  --tick: #fff;
   --base: #0d0f18;
   --wheel: #2b3044;
   --wheel-inner: #646b8c;
@@ -64,7 +64,7 @@
   outline: none;
   color: var(--color);
   background: rgb(27,134,204);
-background: radial-gradient(circle, rgba(27,134,204,1) 0%, rgba(171,177,218,1) 52%, rgba(182,170,221,1) 100%, rgba(151,168,231,1) 100%, rgba(142,167,234,1) 100%, rgba(90,164,251,1) 100%);
+background: radial-gradient(circle, rgba(27,134,204,1) 0%, rgb(90, 168, 245) 52%, rgb(65, 207, 239) 100%, rgba(151,168,231,1) 100%, rgba(142,167,234,1) 100%, rgba(90,164,251,1) 100%);
   border-radius: var(--br, 5px);
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;

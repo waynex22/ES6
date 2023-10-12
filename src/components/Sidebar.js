@@ -22,11 +22,11 @@ const Sidebar = () => {
       <IoMdArrowForward className='text-2xl text-mint' />
     </div>
   </div>
-  <div className='flex flex-col gap-y-2 h-[520px] lg:h-[940px] overflow-y-auto overflow-x-hidden'>{cart.map(item => {
+  <div className='flex flex-col gap-y-2 h-[520px] lg:h-[700px] overflow-y-auto overflow-x-hidden'>{cart.map(item => {
     return <CartItem item={item} key={item.id} />
   })}
   </div>
-  <div className='flex flex-col gap-y-4 py-4 mt-auto'> {/* Use mt-auto to push the content to the bottom */}
+  <div className='flex flex-col gap-y-4 py-4 mt-auto'> 
   <div className='flex justify-between items-center h-[50px]'>
     {/* total */}
     <div className='uppercase font-semibold text-mint'>

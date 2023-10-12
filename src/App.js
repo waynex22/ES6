@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
+import PropTypes from 'prop-types';
 import Shop from './pages/Shop';
 import DashBoard from './pages/Admin/DashBoard';
 import ProductDetails from './pages/ProductDetails';
@@ -20,177 +21,110 @@ import Contact from './pages/Contact';
 import OrderDetail from './components/OrderDetail';
 import CategoryProduct from './pages/CategoryProduct';
 import PriceProducts from './pages/PriceProducts';
+import ThanksOrder from './components/ThanksOrder';
 
 const App = () => {
+  const Layout = ({ children }) => {
+    return (
+      <>
+        <Header />
+        {children}
+        <Footer />
+      </>
+    );
+  }
+  Layout.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+  const LayoutAdmin = ({ children }) => {
+    return (
+      <>
+        <div className='flex flex-row justify-between'>
+          <MenuDashBoard />
+          {children}
+        </div>
+      </>
+    )
+  }
+  LayoutAdmin.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
   return (
-    <div className='overflow-hidden'>
-      <Router>
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <>
-                <Header />
-                <Home />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path='/shop'
-            element={
-              <>
-                <Header />
-                <Shop />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path='/shop/:name'
-            element={
-              <>
-              <div className='flex flex-col min-h-screen'>
-                <Header />
-                <CategoryProduct />
-                <Footer />
-                </div>
-              </>
-            }
-          />
-          <Route
-           path='/shop/filterPrice/:minMaxValues'
-            element={
-              <>
-              <div className='flex flex-col min-h-screen'>
-                <Header />
-                <PriceProducts />
-                <Footer />
-                </div>
-              </>
-            }
-          />
-          <Route
-            path='/checkout'
-            element={
-              <>
-                <Header />
-                <CheckOut />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path='/news'
-            element={
-              <>
-                <Header />
-                <News />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path='/contact'
-            element={
-              <>
-              <div className='flex flex-col min-h-screen'>
-                <Header />
-                <Contact />
-                <Footer />
-                </div>
-              </>
-            }
-          />
-          <Route path='/product/:id' 
-          element={
-            <>
-            <Header />
-          <ProductDetails />
-          <Footer />
-          </>
-          }
-          />
-          <Route path='/ProductAdmin' element={
-            <>
-            <div className='flex flex-row justify-between'>
-          <MenuDashBoard />
-          <ProductAdmin />
-          </div>
-          </>
-          }
-           />
-           <Route path='/Addproduct' element={
-            <>
-            <div className='flex flex-row justify-between'>
-          <MenuDashBoard />
-          <AddProduct />
-          </div>
-          </>
-          }
-           />
-          <Route path='/Orders' element={
-            <>
-            <div className='flex flex-row justify-between'>
-          <MenuDashBoard />
-          <Orders />
-          </div>
-          </>
-          }
-           />
-          <Route path='/CategoryAdmin' element={
-            <>
-            <div className='flex flex-row justify-between'>
-          <MenuDashBoard />
-          <CategoryAdmin />
-          </div>
-          </>
-          }
-           />
-          <Route path='/AddCategory' element={
-            <>
-            <div className='flex flex-row justify-between'>
-          <MenuDashBoard />
-          <AddCategory />
-          </div>
-          </>
-          }
-           />
-           <Route path='/updateproduct/:id' 
-          element={
-            <>
-            <div className='flex flex-row justify-between'>
-            <MenuDashBoard />
-          <UpdateProduct />
-          </div>
-          </>
-          }
-          />
-           <Route path='/OrderDetail/:orderId'
-          element={
-            <>
-            <div className='flex flex-row justify-between'>
-            <MenuDashBoard />
-          <OrderDetail />
-          </div>
-          </>
-          }
-          />
-           <Route path='/DashBoard' 
-          element={
-            <>
-            <div className='flex'>
-            <MenuDashBoard />
-            <DashBoard />
-            </div>
-          </>
-          }
-          />
-        </Routes>
-        <Sidebar />
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Layout><Home /></Layout>}
+        />
+        <Route
+          path="/shop"
+          element={<Layout><Shop /></Layout>}
+        />
+        <Route
+          path="/product/:id"
+          element={<Layout><ProductDetails /></Layout>}
+        />
+
+        <Route
+          path="/shop/:name"
+          element={<Layout><CategoryProduct /></Layout>}
+        />
+        <Route
+          path="/shop/filterPrice/:minMaxValues"
+          element={<Layout><PriceProducts /></Layout>}
+        />
+        <Route
+          path="/checkout"
+          element={<Layout><CheckOut /></Layout>}
+        />
+        <Route
+          path="/checkout/ThanksOrder"
+          element={<Layout><ThanksOrder /></Layout>}
+        />
+        <Route
+          path="/news"
+          element={<Layout><News /></Layout>}
+        />
+        <Route
+          path="/contact"
+          element={<Layout><Contact /></Layout>}
+        />
+        {/* Admin */}
+        <Route
+          path='/Admin/DashBoard'
+          element={<LayoutAdmin><DashBoard /></LayoutAdmin>}
+        /><Route
+          path='/Admin/Product'
+          element={<LayoutAdmin><ProductAdmin /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/AddProduct'
+          element={<LayoutAdmin><AddProduct /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/editProduct/:id'
+          element={<LayoutAdmin><UpdateProduct /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/Categories'
+          element={<LayoutAdmin><CategoryAdmin /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/AddCategory'
+          element={<LayoutAdmin><AddCategory /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/Orders'
+          element={<LayoutAdmin><Orders /></LayoutAdmin>}
+        />
+        <Route
+          path='/Admin/OrderDetail/:orderId'
+          element={<LayoutAdmin><OrderDetail /></LayoutAdmin>}
+        />
+      </Routes>
+      <Sidebar />
+    </Router>
   );
-};
+}
 
 export default App;
